@@ -1,7 +1,7 @@
 import type { NextPage } from "next";
 
 const Home: NextPage = () => {
-  return <div></div>;
+  return <canvas className="webgl" />;
 };
 
 export default Home;
