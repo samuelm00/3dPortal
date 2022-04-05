@@ -1,13 +1,16 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useRef } from "react";
 // @ts-ignore
 import firefliesVertexShader from "../shaders/fireflies/vertex.glsl";
 // @ts-ignore
 import firefliesFragmentShader from "../shaders/fireflies/fragment.glsl";
-import { AdditiveBlending } from "three";
+import { AdditiveBlending, ShaderMaterial } from "three";
+import { useFrame } from "@react-three/fiber";
 
 const fireFliesCount = 40;
 
 export default function FireFlies() {
+  const firefliesMaterial = useRef<ShaderMaterial>();
+
   const bufferGeometryAttributes = useMemo(() => {
     const positionArray = new Float32Array(fireFliesCount * 3);
     const scaleArray = new Float32Array(fireFliesCount);
@@ -22,9 +25,17 @@ export default function FireFlies() {
     return { positionArray, scaleArray };
   }, []);
 
+  useFrame(({ clock }) => {
+    const elapsedTime = clock.getElapsedTime();
+    if (firefliesMaterial.current) {
+      firefliesMaterial.current.uniforms.uTime.value = elapsedTime;
+    }
+  });
+
   return (
     <points>
       <shaderMaterial
+        ref={firefliesMaterial}
         attach={"material"}
         uniforms={{
           uTime: { value: 0 },
