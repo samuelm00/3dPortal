@@ -1974,7 +1974,7 @@
   "resolved" "https://registry.npmjs.org/text-table/-/text-table-0.2.0.tgz"
   "version" "0.2.0"
 
-"three@>=0.133":
+"three@^0.139.2", "three@>=0.133":
   "integrity" "sha512-gV7q7QY8rogu7HLFZR9cWnOQAUedUhu2WXAnpr2kdXZP9YDKsG/0ychwQvWkZN5PlNw9mv5MoCTin6zNTXoONg=="
   "resolved" "https://registry.npmjs.org/three/-/three-0.139.2.tgz"
   "version" "0.139.2"
