@@ -16,7 +16,9 @@ export default function CameraControls() {
     // @ts-ignore
     <orbitControls
       ref={controls}
+      enablePan={false}
       args={[camera, domElement]}
+      maxPolarAngle={Math.PI / 2}
       minPolarAngle={0}
       enableDamping={true}
     />
