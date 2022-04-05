@@ -84,15 +84,19 @@ export default function Portal() {
   }
 
   return (
-    <Canvas dpr={Math.min(window.devicePixelRatio, 2)}>
+    <Canvas
+      camera={{
+        isPerspectiveCamera: true,
+        fov: 45,
+        aspect: window.innerWidth / window.innerHeight,
+        far: 100,
+        near: 0.1,
+        position: [4, 2, 4],
+      }}
+      gl={{ antialias: true }}
+      dpr={Math.min(window.devicePixelRatio, 2)}
+    >
       <color attach={"background"} args={["#111111"]} />
-      <perspectiveCamera
-        position={[4, 2, 4]}
-        fov={45}
-        aspect={window.innerWidth / window.innerHeight}
-        far={100}
-        near={0.1}
-      />
       <primitive object={glbModel} />
       <CameraControls />
       <FireFlies />
