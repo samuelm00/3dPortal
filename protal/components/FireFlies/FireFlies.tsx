@@ -3,13 +3,19 @@ import React, { useMemo, useRef } from "react";
 import firefliesVertexShader from "../shaders/fireflies/vertex.glsl";
 // @ts-ignore
 import firefliesFragmentShader from "../shaders/fireflies/fragment.glsl";
-import { AdditiveBlending, ShaderMaterial } from "three";
+import {
+  AdditiveBlending,
+  BufferAttribute,
+  Color,
+  ShaderMaterial,
+} from "three";
 import { useFrame } from "@react-three/fiber";
 
 const fireFliesCount = 40;
 
 export default function FireFlies() {
   const firefliesMaterial = useRef<ShaderMaterial>();
+  const ref = useRef<any>();
 
   const bufferGeometryAttributes = useMemo(() => {
     const positionArray = new Float32Array(fireFliesCount * 3);
@@ -22,7 +28,10 @@ export default function FireFlies() {
 
       scaleArray[i] = Math.random();
     }
-    return { positionArray, scaleArray };
+    return {
+      position: new BufferAttribute(positionArray, 3),
+      aScale: new BufferAttribute(scaleArray, 1),
+    };
   }, []);
 
   useFrame(({ clock }) => {
@@ -30,17 +39,19 @@ export default function FireFlies() {
     if (firefliesMaterial.current) {
       firefliesMaterial.current.uniforms.uTime.value = elapsedTime;
     }
+    console.log(ref.current);
   });
 
   return (
     <points>
       <shaderMaterial
+        defaultAttributeValues={{ color: [255, 255, 255] }}
         ref={firefliesMaterial}
         attach={"material"}
         uniforms={{
           uTime: { value: 0 },
           uPixelRatio: { value: Math.min(window.devicePixelRatio, 2) },
-          uSize: { value: 100 },
+          uSize: { value: 300 },
         }}
         vertexShader={firefliesVertexShader}
         fragmentShader={firefliesFragmentShader}
@@ -48,20 +59,13 @@ export default function FireFlies() {
         blending={AdditiveBlending}
         depthWrite={false}
       />
-      <bufferGeometry attach="geometry">
-        <bufferAttribute
-          //@ts-ignore
-          attachObject={["attributes", "position"]}
-          array={bufferGeometryAttributes.positionArray}
-          itemSize={3}
-        />
-        <bufferAttribute
-          //@ts-ignore
-          attachObject={["attributes", "aSacel"]}
-          array={bufferGeometryAttributes.scaleArray}
-          itemSize={1}
-        />
-      </bufferGeometry>
+      <bufferGeometry
+        ref={ref}
+        attach="geometry"
+        attributes={{
+          ...bufferGeometryAttributes,
+        }}
+      />
     </points>
   );
 }

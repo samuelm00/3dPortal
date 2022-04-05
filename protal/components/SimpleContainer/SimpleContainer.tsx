@@ -12,7 +12,6 @@ export default function SimpleContainer({
 }: SimpleContainerProps) {
   return (
     <Canvas {...props} dpr={Math.min(window.devicePixelRatio, 2)}>
-      <color attach={"background"} args={["#111111"]} />
       <CameraControls />
       {children}
     </Canvas>

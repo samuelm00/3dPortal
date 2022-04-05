@@ -1,3 +1,4 @@
+import { sRGBEncoding } from "three";
 import SimpleContainer from "../SimpleContainer/SimpleContainer";
 import PortalModel from "./PortalModel";
 
@@ -12,7 +13,7 @@ export default function Portal() {
         near: 0.1,
         position: [4, 2, 4],
       }}
-      gl={{ antialias: true }}
+      gl={{ antialias: true, outputEncoding: sRGBEncoding }}
     >
       <PortalModel />
     </SimpleContainer>

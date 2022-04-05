@@ -1,4 +1,4 @@
-import { useFrame } from "@react-three/fiber";
+import { useFrame, useThree } from "@react-three/fiber";
 import { TextureLoader } from "three/src/loaders/TextureLoader";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import React, { useEffect, useMemo, useState } from "react";
@@ -19,6 +19,7 @@ import CameraControls from "../OrbitControls/OrbitControls";
 
 export default function PortalModel() {
   const [glbModel, setGlbModel] = useState<any>(null);
+  const { gl } = useThree();
 
   const bakedTexture = useMemo(() => {
     const loader = new TextureLoader();
@@ -33,8 +34,8 @@ export default function PortalModel() {
       new ShaderMaterial({
         uniforms: {
           uTime: { value: 0 },
-          uColorStart: { value: new Color("blue") },
-          uColorEnd: { value: new Color("red") },
+          uColorStart: { value: new Color("#111111") },
+          uColorEnd: { value: new Color("#3CFCC5") },
         },
         vertexShader: portalVertexShader,
         fragmentShader: portalFragmentShader,
@@ -76,6 +77,10 @@ export default function PortalModel() {
       constructGlbModel();
     }
   }, [bakedTexture, portalLightMaterial]);
+
+  useEffect(() => {
+    gl.setClearColor("#111111");
+  }, []);
 
   useFrame(({ clock }) => {
     if (portalLightMaterial) {
