@@ -1,4 +1,4 @@
-import { Canvas, useThree } from "@react-three/fiber";
+import { Canvas } from "@react-three/fiber";
 import { TextureLoader } from "three/src/loaders/TextureLoader";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import React, { useEffect, useMemo, useState } from "react";
@@ -76,8 +76,6 @@ export default function Portal() {
       constructGlbModel();
     }
   }, [bakedTexture, portalLightMaterial]);
-
-  console.log(glbModel);
 
   if (!glbModel) {
     return null;
